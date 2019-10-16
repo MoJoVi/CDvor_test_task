@@ -44,11 +44,12 @@ def find_word(word, array):
     """
     :param word: искомое слово
     :param array: массив заданного формата в котором необходимо найти слово
-    :return: список кортежей формата [(<номер_строки>, <номер_позиции>)]
+    :return: список кортежей формата [(<номер_строки>, <номер_позиции>), ...]
     """
-    try:
-        res = next(x[word] for x in array if x.get(word, False))
-    except StopIteration:
+    # return [x[word] for x in array if x.get(word, False)] or 'Слово не найдено!'
+    for res in iter((x[word] for x in array if x.get(word, False))):
+        break
+    else:
         res = 'Слово не найдено!'
     return res
 
