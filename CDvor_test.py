@@ -22,9 +22,8 @@ from pprint import pprint
 
 def words_indexing(text_file):
     """
-    Функция принимает название/путь текстового файла и разбив текст файла сначала
-    на строки а затем на отдельные слова(предварительно удалив знаки препинания)
-    и на выходе возвращает необходимый по условию массив.
+    :param text_file: название/путь текстового файла
+    :return: необходимый по условию массив.
     """
     words_dict = {}
     with open(text_file, 'r') as file:
@@ -36,8 +35,24 @@ def words_indexing(text_file):
             # искажением значения.
             for word in line:
                 words_dict[word] = words_dict.get(word, list()) + [(line_ix, line.index(word))]
-    return [{word[0]: word[1]} for word in words_dict.items()]
+    return [{words[0]: words[1]} for words in words_dict.items()]  # возвращаем массив необходимого формата
+
+
+def find_word(word, array):
+    """
+    :param word: искомое слово
+    :param array: массив заданного формата в котором необходимо найти слово
+    :return: список кортежей формата [(<номер_строки>, <номер_позиции>)]
+    """
+    try:
+        res = next(x[word] for x in array if x.get(word, False))
+    except StopIteration:
+        res = 'Слово не найдено!'
+    return res
 
 
 if __name__ == '__main__':
-    pprint(words_indexing('text.txt'))
+    array = words_indexing('text.txt')
+    pprint(array)
+    print(find_word('две', array))
+    print(find_word('sdthxfg', array))
