@@ -18,6 +18,8 @@
 Бонусом - можно попробовать реализовать поиск слов по построенному индексу.
 """
 from pprint import pprint
+from collections import defaultdict
+import json
 
 
 def words_indexing(text_file):
@@ -25,7 +27,7 @@ def words_indexing(text_file):
     :param text_file: название/путь текстового файла
     :return: необходимый по условию массив.
     """
-    words_dict = {}
+    words_dict = defaultdict(list)
     with open(text_file, 'r') as file:
         for line_ix, line in enumerate(file.readlines()):
             line = ''.join([letter for letter in line.lower() if letter not in '.,:;']).split()
@@ -34,7 +36,7 @@ def words_indexing(text_file):
             # является устойчивым выражением и если их записать как 2 слова то это будет
             # искажением значения.
             for word in line:
-                words_dict[word] = words_dict.get(word, list()) + [(line_ix, line.index(word))]
+                words_dict[word].append((line_ix, line.index(word)))
     return [{words[0]: words[1]} for words in words_dict.items()]  # возвращаем массив необходимого формата
 
 
@@ -49,6 +51,17 @@ def find_word(word, array):
     except StopIteration:
         res = 'Слово не найдено!'
     return res
+
+
+def save_to_json(data, data_file='data_file.json'):
+    """
+    Функция используется при необходимости сохранения объекта в файл JSON
+    :param data: Данные для записи
+    :param data_file: путь/имя файла
+    :return: None
+    """
+    with open(data_file, 'w') as jfile:
+        json.dump(data, jfile)
 
 
 if __name__ == '__main__':
