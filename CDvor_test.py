@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 """
 Построить инвертированный индекс по стихотворению "Чепушники" Сергея Михалкова:
 
@@ -24,7 +25,7 @@ import json
 
 def words_indexing(text_file):
     """
-    :param text_file: название/путь текстового файла
+    :param text_file: путь/название текстового файла
     :return: необходимый по условию массив.
     """
     words_dict = defaultdict(list)
